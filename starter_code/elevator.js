@@ -9,10 +9,13 @@ class Elevator {
   start() {
     let that = this;
     setInterval(function(){ that.update() }, 1000);
+
   }
   stop() {
     let interval = this.start();
-    clearInterval(interval);
+
+    
+    clearTimeout(interval);
   }
   update() {
     return this.log();
@@ -20,11 +23,15 @@ class Elevator {
   _passengersEnter() { }
   _passengersLeave() { }
   floorUp() {
+    return this.floor++;
   }
-  floorDown() { }
+  floorDown() {
+    return this.floor--;
+  }
   call() { }
   log() {
-    console.log( `Direction: ${this.direction} | Floor: ${this.floor} `);
+    
+    console.log( `Direction: ${this.direction} | Floor: ${this.floorUp()} `);
   }
 }
 
