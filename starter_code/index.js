@@ -12,5 +12,7 @@ const Alicia = new Person("Alicia", 1, 5)
 // console.log(elevator1)
 
 elevator1.call(Bet)
-
+elevator1.start()
+//elevator1.call(Alicia)
+//console.log(elevator1.requests)
 

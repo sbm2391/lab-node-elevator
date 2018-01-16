@@ -1,13 +1,13 @@
 class Elevator {
-  constructor(floor, direction){
+  constructor(){
     
-    this.floor      = floor;
+    this.floor      = 0;
     this.MAXFLOOR   = 10;
     this.MINFLOOR   = 0;
     this.requests   = [];
     this.watingList = [];
     this.passengers = [];
-    this.direction  = direction;
+    this.direction  = "up";
 
   }
 
@@ -24,22 +24,51 @@ class Elevator {
     clearInterval(this.interval)
   
   }
-  update() {
-    if (this.direction === "up") {
-      if (this.floor < this.MAXFLOOR) {
-        this.floorUp();
-        return this.log();
-      } else {
-        this.stop();
+  update(person) {
+    if(this.floor < person.destinationFloor) {
+      this.floorUp()
+      var _requets = this.requests.split("");
+      for (var request of _requests) { 
+        if(request === this.floor) {
+          if (this.floor === person.originFloor) {
+          this._passengersEnter(person)          
+          } else if (this.floor === person.destinationFloor) {
+            this._passengersLeave(person)
+          }
+        }
       }
-    } else if (this.direction === "down") {
-      if (this.floor >  this.MINFLOOR) {
-        this.floorDown ();
-        return this.log();
-      } else {
-        this.stop();
+    } else if (this.floor > person.destinationFloor) {
+      this.floorDown()
+      var _requets = this.requests.split("");
+      for (var request of _requests) { 
+        if(request === this.floor) {
+          if (this.floor === person.originFloor) {
+          this._passengersEnter(person)          
+          } else if (this.floor === person.destinationFloor) {
+            this._passengersLeave(person)
+          }
+        }
       }
+    } else {
+      this.stop();
     }
+
+    
+    // if (this.direction === "up") {
+    //   if (this.floor < this.MAXFLOOR) {
+    //     this.floorUp();
+    //     return this.log();
+    //   } else {
+    //     this.stop();
+    //   }
+    // } else if (this.direction === "down") {
+    //   if (this.floor >  this.MINFLOOR) {
+    //     this.floorDown ();
+    //     return this.log();
+    //   } else {
+    //     this.stop();
+    //   }
+    // }
     
   }
   _passengersEnter(person) { 
@@ -47,6 +76,7 @@ class Elevator {
       this.passengers.push(person.name)
       this.watingList.shift()
       this.requests.push(person.destinationFloor)
+      this.requests.sort(function(a, b){return a-b})
     }
     console.log(`${person.name} has enter the elevator`)
   }
@@ -59,16 +89,19 @@ class Elevator {
   }
 
   floorUp() {
+    this.direction = "up"
     this.floor++;
   }
 
   floorDown() {
+    this.direction = "down"
     this.floor--;
   }
 
   call(person) {
     this.watingList.push(person.name)
     this.requests.push(person.originFloor)
+    this.requests.sort(function(a, b){return a-b})
     
    }
 
