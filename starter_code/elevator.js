@@ -24,27 +24,33 @@ class Elevator {
     clearInterval(this.interval)
   
   }
-  update(person) {
-    //for(let i = 0; i < this.requests.length; i++) {
-      if(this.floor < this.requests[0]) {
-        this.floorUp()
-        if (this.floor === person.originFloor) {
-          this._passengersEnter(person)          
-        } else if (this.floor === person.destinationFloor) {
-          this._passengersLeave(person)
-        }
-      } else if (this.floor > this.requests[0]) {
-        this.floorDown()
-        if (this.floor === person.originFloor) {
-          this._passengersEnter(person)          
-        } else if (this.floor === person.destinationFloor) {
-          this._passengersLeave(person)
-        } else {
-          this.stop();
-        }
-      }
+  update() {
+    
+    if(this.floor < this.requests[0]) {
+      this.floorUp()
+      
+
+    } else if (this.floor > this.requests[0]) {
+      this.floorDown()
+      
+    } 
+    else if (this.floor === this.MINFLOOR){
+      this.floorUp()
+      this.requests.shift()
+      
+    } else if (this.floor === this.MAXFLOOR){
+      this.floorDown()
+      
+    } else {
+      this.stop();
+      
     }
-  //} 
+    this.log()
+    
+  }
+
+   
+
   _passengersEnter(person) { 
     if (this.watingList.length > 0) {
       this.passengers.push(person.name)
@@ -75,6 +81,7 @@ class Elevator {
   call(person) {
     this.watingList.push(person.name)
     this.requests.push(person.originFloor)
+    this.requests.push(person.destinationFloor)
     this.requests.sort(function(a, b){return a-b})
     
    }
