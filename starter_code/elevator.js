@@ -25,52 +25,26 @@ class Elevator {
   
   }
   update(person) {
-    if(this.floor < person.destinationFloor) {
-      this.floorUp()
-      var _requets = this.requests.split("");
-      for (var request of _requests) { 
-        if(request === this.floor) {
-          if (this.floor === person.originFloor) {
+    //for(let i = 0; i < this.requests.length; i++) {
+      if(this.floor < this.requests[0]) {
+        this.floorUp()
+        if (this.floor === person.originFloor) {
           this._passengersEnter(person)          
-          } else if (this.floor === person.destinationFloor) {
-            this._passengersLeave(person)
-          }
+        } else if (this.floor === person.destinationFloor) {
+          this._passengersLeave(person)
+        }
+      } else if (this.floor > this.requests[0]) {
+        this.floorDown()
+        if (this.floor === person.originFloor) {
+          this._passengersEnter(person)          
+        } else if (this.floor === person.destinationFloor) {
+          this._passengersLeave(person)
+        } else {
+          this.stop();
         }
       }
-    } else if (this.floor > person.destinationFloor) {
-      this.floorDown()
-      var _requets = this.requests.split("");
-      for (var request of _requests) { 
-        if(request === this.floor) {
-          if (this.floor === person.originFloor) {
-          this._passengersEnter(person)          
-          } else if (this.floor === person.destinationFloor) {
-            this._passengersLeave(person)
-          }
-        }
-      }
-    } else {
-      this.stop();
     }
-
-    
-    // if (this.direction === "up") {
-    //   if (this.floor < this.MAXFLOOR) {
-    //     this.floorUp();
-    //     return this.log();
-    //   } else {
-    //     this.stop();
-    //   }
-    // } else if (this.direction === "down") {
-    //   if (this.floor >  this.MINFLOOR) {
-    //     this.floorDown ();
-    //     return this.log();
-    //   } else {
-    //     this.stop();
-    //   }
-    // }
-    
-  }
+  //} 
   _passengersEnter(person) { 
     if (this.watingList.length > 0) {
       this.passengers.push(person.name)
