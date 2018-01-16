@@ -1,5 +1,6 @@
 class Elevator {
-  constructor(floor, direction){
+  constructor(Person, floor, direction){
+    this.person1 = new Person("Bet", 2, 5);
     this.floor      = floor;
     this.MAXFLOOR   = 10;
     this.MINFLOOR   = 0;
@@ -49,7 +50,11 @@ class Elevator {
     this.floor--;
   }
 
-  call() { }
+  call() {
+    
+    this.requests.push(this.person1)
+   }
+
   log(){
     console.log( `Direction: ${this.direction} | Floor: ${this.floor} `);
   }
